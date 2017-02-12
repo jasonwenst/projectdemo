@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+
+		<!-- 	指定数据连接驱动jar地址 -->
+<!--   	<classPathEntry location="C:/Users/Administrator/.m2/repository/mysql/mysql-connector-java/5.1.31/mysql-connector-java-5.1.31.jar" /> -->
+		<classPathEntry location="C:/Users/Administrator/.m2/repository/com/oracle/ojdbc6/12.1.0.1.0/ojdbc6-12.1.0.1.0.jar" />
+  
+  <!-- 一个数据库一个context -->  
+  <context id="context1">
+  
+  
+  		<!-- jdbc连接 --> 
+<!--     <jdbcConnection connectionURL="jdbc:mysql://123.56.233.132:3306/shark" driverClass="com.mysql.jdbc.Driver" password="root" userId="shark" /> -->
+		<jdbcConnection connectionURL="jdbc:oracle:thin:@10.10.10.120:1521:oel1206" driverClass="oracle.jdbc.driver.OracleDriver" password="zg" userId="zg" /> 
+   
+   
+   <!-- 生成实体类地址 --> 
+    <javaModelGenerator targetPackage="com.asiainfo.demo.domain" targetProject="projectdemo/src/main/java" >
+    	<property name="enableSubPackages" value="true"/>
+    </javaModelGenerator>
+   
+   <!-- 生成mapxml文件 -->  	
+    <sqlMapGenerator targetPackage="com.asiainfo.demo.mapper" targetProject="projectdemo/src/main/resources" />
+<!--     <javaClientGenerator targetPackage="com.asiainfo.demo.mapper" targetProject="projectdemo/src/main/java" type="XMLMAPPER" /> -->
+  
+  
+  	<!-- 配置表信息 --> 
+    <table schema="zg" tableName="TB_EMPLOYEE">
+    </table>
+  
+  
+  </context>
+</generatorConfiguration>
