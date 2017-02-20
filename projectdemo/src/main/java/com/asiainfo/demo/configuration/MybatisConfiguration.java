@@ -15,21 +15,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import com.asiainfo.demo.database.DynamicDataSource;
 
+
+
+/**
+ * mybatis 配置类
+ * @author liqingguo
+ *
+ */
 @Configuration
 @PropertySource(value = "classpath:db.properties")
-@MapperScan("com.asiainfo.demo.mapper") //  貌似这个注入没用？？？
-@ComponentScan("com.asiainfo.demo.dao")
+@MapperScan("com.asiainfo.demo.mapper") //  这个配置貌似没用
+@ComponentScan("com.asiainfo.demo.*")
+@EnableAspectJAutoProxy
 public class MybatisConfiguration {
 	
 	@Autowired
 	private Environment environment;
 	
+	
+	
+	/*
+	 * 数据源配置
+	 */
 	@Bean(name = "ds_mysql")
 	public DataSource mysqlDataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
@@ -55,6 +69,10 @@ public class MybatisConfiguration {
 		return dataSource;
 	}
 	
+	
+	/*
+	 * 多数据源配置
+	 */
 	@Bean("dynamicDataSource")
 	public DataSource getDynamicDataSource(){
 		
@@ -64,6 +82,7 @@ public class MybatisConfiguration {
 		sources.put("ds_oracle", oracleDataSource());
 		dataSource.setTargetDataSources(sources);
 		
+		// 设置默认数据源
 		dataSource.setDefaultTargetDataSource(mysqlDataSource());
 		return dataSource;
 	}
@@ -81,7 +100,7 @@ public class MybatisConfiguration {
 	}
 	
 	
-	@Bean
+	@Bean(name = "sqlSession")
 	public SqlSession getSqlSession() throws Exception {
 		return new SqlSessionTemplate(getSqlSessionFactory());
 	}

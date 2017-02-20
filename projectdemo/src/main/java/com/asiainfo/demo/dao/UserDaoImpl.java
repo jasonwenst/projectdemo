@@ -1,37 +1,39 @@
 package com.asiainfo.demo.dao;
 
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.asiainfo.demo.database.BaseDAO;
+import com.asiainfo.demo.database.DataSourceSwitch;
 import com.asiainfo.demo.domain.User;
 
 @Repository("userDao")
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl extends BaseDAO implements UserDao {
 	
 	private static final String MAPPER_PATH = "com.asiainfo.demo.mapper.UserMapper.";
 	
-	@Autowired
-	private SqlSession sqlSession;
 
 	@Override
-	public User getUserByUsername(User user) {
-		return sqlSession.selectOne(MAPPER_PATH + "selectUserByUserName", user);
+	public User getUserByUsername(User user) throws Exception {
+		DataSourceSwitch.setDataSourceType(DataSourceSwitch.MYSQL_DATA_SOURCE);
+		return getSqlSession().selectOne(MAPPER_PATH + "selectUserByUserName", user);
 	}
 
 	@Override
-	public int insertUser(User user) {
-		return sqlSession.insert(MAPPER_PATH + "insert", user);
+	public int insertUser(User user) throws Exception {
+		DataSourceSwitch.setDataSourceType(DataSourceSwitch.MYSQL_DATA_SOURCE);
+		return getSqlSession().insert(MAPPER_PATH + "insert", user);
 	}
 
 	@Override
-	public int updateUser(User user) {
-		return sqlSession.update(MAPPER_PATH + "updateByPrimaryKeySelective", user);
+	public int updateUser(User user) throws Exception {
+		DataSourceSwitch.setDataSourceType(DataSourceSwitch.MYSQL_DATA_SOURCE);
+		return getSqlSession().update(MAPPER_PATH + "updateByPrimaryKeySelective", user);
 	}
 	
 	@Override
-	public int deleteUser(User user) {
-		return sqlSession.update(MAPPER_PATH + "deleteByPrimaryKey", user);
+	public int deleteUser(User user) throws Exception {
+		DataSourceSwitch.setDataSourceType(DataSourceSwitch.MYSQL_DATA_SOURCE);
+		return getSqlSession().update(MAPPER_PATH + "deleteByPrimaryKey", user);
 	}
 
 }

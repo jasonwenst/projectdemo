@@ -23,7 +23,7 @@ public class DaoTest extends BaseJUnit4Test {
 	
 	
 	@Test
-	public void testQueryUser() {
+	public void testQueryUser() throws Exception {
 		DataSourceSwitch.setDataSourceType(DataSourceSwitch.MYSQL_DATA_SOURCE);
 		User user = new User();
 		user.setUsername("jason");
@@ -37,7 +37,7 @@ public class DaoTest extends BaseJUnit4Test {
 	
 	@Test
 //	@Ignore
-	public void testInsertUser() {
+	public void testInsertUser() throws Exception {
 		User user = new User();
 		user.setAddress("杭州");
 		user.setEmail("fasefa@qq.com");
@@ -50,7 +50,7 @@ public class DaoTest extends BaseJUnit4Test {
 	
 	@Ignore
 	@Test
-	public void testUpdateUser() {
+	public void testUpdateUser() throws Exception {
 		
 		User user = new User();
 		user.setId(4234364);
@@ -61,7 +61,7 @@ public class DaoTest extends BaseJUnit4Test {
 	
 	@Test
 	@Ignore
-	public void testDeleteUser() {
+	public void testDeleteUser() throws Exception {
 		User user = new User();
 		user.setId(4234364);
 		
@@ -70,7 +70,7 @@ public class DaoTest extends BaseJUnit4Test {
 	
 	
 	@Test
-	public void testQryEmp() {
+	public void testQryEmp() throws Exception {
 		List<Employee> emps = employeeDao.getAllEmployee();
 		
 		for(Employee emp : emps) {
@@ -80,9 +80,20 @@ public class DaoTest extends BaseJUnit4Test {
 	
 	
 	@Test
-	public void testMultDataSource() {
+	public void testMultDataSource() throws Exception {
 		testQryEmp();
 		testQueryUser();
+	}
+	
+	
+	@Test
+	public void testTransInMultDataSource() throws Exception {
+		Employee emp = new Employee();
+		emp.setEmpName("s");
+		emp.setEmpPhone("23534556");
+		emp.setEmpType("D");
+		
+		employeeDao.insertEmp(emp);
 	}
 	
 
